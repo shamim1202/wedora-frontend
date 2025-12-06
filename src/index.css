@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* ------------------- Google Font ----------------- */
+.inter {
+  font-family: "Inter", sans-serif;
+}
+.playfair {
+  font-family: "Playfair Display", serif;
+}
