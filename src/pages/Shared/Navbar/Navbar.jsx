@@ -81,36 +81,64 @@ const Navbar = ({ isLoggedIn = false }) => {
         </div>
 
         {/* Middle: Nav Links - Desktop */}
-        <div className="hidden lg:flex items-center space-x-10">
+        <div className="hidden lg:flex items-center space-x-8">
           <a href="#home" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
             Home
           </a>
-          <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
-            About Us
-          </a>
           <a href="#services" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
-            Service
+            Services
           </a>
-          <a href="#pricing" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
-            Pricing
+          <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+            About
           </a>
-        </div>
-
-        {/* Right: CTA Button - Desktop */}
-        <div className="hidden lg:flex items-center">
-          {isLoggedIn ? (
-            <a
-              href="/dashboard"
-              className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:bg-primary-focus transition-colors"
-            >
+          <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+            Contact
+          </a>
+          {isLoggedIn && (
+            <a href="/dashboard" className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
               Dashboard
             </a>
+          )}
+        </div>
+
+        {/* Right: Auth Buttons / Profile - Desktop */}
+        <div className="hidden lg:flex items-center gap-4">
+          {isLoggedIn ? (
+            <div className="relative group">
+              <button className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary hover:bg-primary/5 transition-all">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-pink-600 flex items-center justify-center text-white font-semibold text-sm shadow-md">
+                  JD
+                </div>
+                <span className="text-gray-800 dark:text-gray-200 text-sm font-semibold">John Doe</span>
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {/* Dropdown Menu */}
+              <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">John Doe</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">john@example.com</p>
+                </div>
+                <a href="/profile" className="block px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-primary/10 hover:text-primary transition-colors">
+                  Profile
+                </a>
+                <a href="/settings" className="block px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-primary/10 hover:text-primary transition-colors">
+                  Settings
+                </a>
+                <hr className="my-2 border-gray-200 dark:border-gray-700" />
+                <button className="block w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                  Logout
+                </button>
+              </div>
+            </div>
           ) : (
             <a
-              href="#contact"
+              href="/login"
               className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:bg-primary-focus transition-colors"
             >
-              Let's Talk
+              Login
             </a>
           )}
         </div>
@@ -158,53 +186,82 @@ const Navbar = ({ isLoggedIn = false }) => {
                   Home
                 </motion.a>
                 <motion.a 
-                  href="#about" 
+                  href="#services" 
                   custom={1}
                   variants={menuItemVariants}
                   className="text-lg text-gray-700 dark:text-gray-300 hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-700"
                   onClick={toggleMenu}
                 >
-                  About Us
+                  Services
                 </motion.a>
                 <motion.a 
-                  href="#services" 
+                  href="#about" 
                   custom={2}
                   variants={menuItemVariants}
                   className="text-lg text-gray-700 dark:text-gray-300 hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-700"
                   onClick={toggleMenu}
                 >
-                  Service
+                  About
                 </motion.a>
                 <motion.a 
-                  href="#pricing" 
+                  href="#contact" 
                   custom={3}
                   variants={menuItemVariants}
                   className="text-lg text-gray-700 dark:text-gray-300 hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-700"
                   onClick={toggleMenu}
                 >
-                  Pricing
+                  Contact
                 </motion.a>
                 
+                {isLoggedIn && (
+                  <motion.a 
+                    href="/dashboard" 
+                    custom={4}
+                    variants={menuItemVariants}
+                    className="text-lg text-gray-700 dark:text-gray-300 hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-700"
+                    onClick={toggleMenu}
+                  >
+                    Dashboard
+                  </motion.a>
+                )}
+                
                 <motion.div
-                  custom={4}
+                  custom={5}
                   variants={menuItemVariants}
-                  className="pt-4"
+                  className="pt-4 space-y-4"
                 >
                   {isLoggedIn ? (
-                    <a
-                      href="/dashboard"
-                      className="block bg-primary text-white px-6 py-3 rounded-full text-center font-medium hover:bg-primary-focus transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      Dashboard
-                    </a>
+                    <>
+                      <div className="flex items-center gap-3 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-medium">
+                          JD
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">John Doe</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">john@example.com</p>
+                        </div>
+                      </div>
+                      <a
+                        href="/profile"
+                        className="block text-center px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                        onClick={toggleMenu}
+                      >
+                        Profile
+                      </a>
+                      <button
+                        className="block w-full text-center px-6 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                        onClick={toggleMenu}
+                      >
+                        Logout
+                      </button>
+                    </>
                   ) : (
                     <a
-                      href="#contact"
+                      href="/login"
                       className="block bg-primary text-white px-6 py-3 rounded-full text-center font-medium hover:bg-primary-focus transition-colors"
                       onClick={toggleMenu}
                     >
-                      Let's Talk
+                      Login
                     </a>
                   )}
                 </motion.div>
