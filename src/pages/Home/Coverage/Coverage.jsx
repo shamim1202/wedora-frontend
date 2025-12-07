@@ -12,7 +12,20 @@ L.Icon.Default.mergeOptions({
 });
 
 const Coverage = () => {
-  const position = [23.8041, 90.4152]; // Dhaka, Bangladesh
+  // Center of Bangladesh
+  const bangladeshCenter = [23.685, 90.3563];
+  
+  // Major cities and regions we serve
+  const locations = [
+    { position: [23.8103, 90.4125], name: "Dhaka", description: "Capital City - Main Office" },
+    { position: [22.3569, 91.7832], name: "Chittagong", description: "Port City Services" },
+    { position: [24.3636, 88.6241], name: "Rajshahi", description: "Northern Region" },
+    { position: [24.8949, 91.8687], name: "Sylhet", description: "Tea Capital Services" },
+    { position: [22.8456, 89.5403], name: "Khulna", description: "Southern Region" },
+    { position: [24.7471, 90.4203], name: "Mymensingh", description: "Central North" },
+    { position: [25.7439, 89.2752], name: "Rangpur", description: "Northern Services" },
+    { position: [23.2332, 89.1220], name: "Jessore", description: "Western Region" },
+  ];
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
@@ -29,8 +42,8 @@ const Coverage = () => {
             Our <span className="text-primary">Coverage</span> Area
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-            We provide wedding planning services across Dhaka and surrounding areas. 
-            Find us on the map below.
+            We provide wedding planning services across all major cities in Bangladesh. 
+            Find our service locations on the map below.
           </p>
         </motion.div>
 
@@ -57,25 +70,29 @@ const Coverage = () => {
           />
           
           <MapContainer 
-            center={position} 
-            zoom={13} 
+            center={bangladeshCenter} 
+            zoom={7} 
             scrollWheelZoom={false}
-            className="h-[200px] md:h-[400px] w-full"
+            className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] w-full"
             style={{ zIndex: 0 }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position}>
-              <Popup>
-                <div className="text-center p-2">
-                  <h3 className="font-bold text-primary mb-1">Wedora</h3>
-                  <p className="text-sm text-gray-600">Wedding Planning Services</p>
-                  <p className="text-xs text-gray-500 mt-1">Dhaka, Bangladesh</p>
-                </div>
-              </Popup>
-            </Marker>
+            
+            {/* Add markers for all locations */}
+            {locations.map((location, index) => (
+              <Marker key={index} position={location.position}>
+                <Popup>
+                  <div className="text-center p-2">
+                    <h3 className="font-bold text-primary mb-1">{location.name}</h3>
+                    <p className="text-sm text-gray-600">{location.description}</p>
+                    <p className="text-xs text-gray-500 mt-1">Wedora Services Available</p>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
         </motion.div>
 
@@ -104,8 +121,8 @@ const Coverage = () => {
               <div>
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">Address</h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                  123 Wedding Street<br />
-                  Dhaka 1000, Bangladesh
+                  Headquarters: Dhaka<br />
+                  Serving all major cities across Bangladesh
                 </p>
               </div>
             </div>
