@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Logo from "../../../components/Logo/Logo";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const {
@@ -12,11 +13,20 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const { loginUser } = useAuth();
+  const navigate = useNavigate()
 
   const handleLogin = (data) => {
     loginUser(data.email, data.password)
       .then((res) => {
-        console.log(res.user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `Welcome Back ${res.user.displayName}`,
+          text: "Your Login Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/")
       })
       .catch((err) => {
         console.log(err);

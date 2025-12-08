@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const HeroBanner = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)] flex items-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center py-6 md:py-14">
       <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         {/*================> Left: Text Content <================*/}
         <div className="w-full lg:w-1/2 text-center lg:text-left relative z-10 order-2 lg:order-1">

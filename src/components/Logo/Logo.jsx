@@ -2,7 +2,7 @@
 
 const Logo = () => {
   return (
-      <span className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white font-playfair hover:text-primary transition-colors cursor-pointer">
+      <span className="text-xl md:text-3xl font-bold text-gray-800 dark:text-white font-playfair hover:text-primary transition-colors cursor-pointer">
         Wedora
       </span>
   );

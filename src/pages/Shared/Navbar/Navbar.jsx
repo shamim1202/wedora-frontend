@@ -7,8 +7,8 @@ import useAuth from "../../../hooks/useAuth";
 
 const Navbar = ({ isLoggedIn = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [scrolled, setScrolled] = useState(false);
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
+  console.log(user)
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -17,9 +17,17 @@ const Navbar = ({ isLoggedIn = false }) => {
     open: { opacity: 1 },
   };
 
+  const handleLogout = () => {
+    logOut()
+    .then()
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   return (
-    <div>
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16 md:h-20">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="flex items-center justify-between h-16 md:h-20">
         {/*===============> Left: Logo & Brand <===================*/}
         <div className="flex items-center space-x-2">
           <Logo></Logo>
@@ -51,9 +59,9 @@ const Navbar = ({ isLoggedIn = false }) => {
           >
             Contact
           </Link>
-          {isLoggedIn && (
+          {user && (
             <Link
-              href="/dashboard"
+              to="/dashboard"
               className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
             >
               Dashboard
@@ -63,14 +71,12 @@ const Navbar = ({ isLoggedIn = false }) => {
 
         {/*=======> Right: Auth Buttons / Profile - Desktop <========*/}
         <div className="hidden lg:flex items-center gap-4">
-          {isLoggedIn ? (
+          {user ? (
             <div className="relative group">
               <button className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary hover:bg-primary/5 transition-all">
-                <div className="w-9 h-9 rounded-full bg-linear-to-br from-primary to-pink-600 flex items-center justify-center text-white font-semibold text-sm shadow-md">
-                  JD
-                </div>
+                <img src={user.photoURL} alt="" className="rounded-full"/>
                 <span className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
-                  John Doe
+                  {user.displayName}
                 </span>
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors"
@@ -91,10 +97,10 @@ const Navbar = ({ isLoggedIn = false }) => {
               <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                    John Doe
+                    {user.displayName}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                    john@example.com
+                    {user.email}
                   </p>
                 </div>
                 <a
@@ -110,7 +116,7 @@ const Navbar = ({ isLoggedIn = false }) => {
                   Settings
                 </a>
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                <button className="block w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <button className="block w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer" onClick={handleLogout}>
                   Logout
                 </button>
               </div>
@@ -177,7 +183,7 @@ const Navbar = ({ isLoggedIn = false }) => {
                   Contact
                 </Link>
 
-                {isLoggedIn && (
+                {user && (
                   <Link
                     to="/dashboard"
                     custom={4}
@@ -188,17 +194,18 @@ const Navbar = ({ isLoggedIn = false }) => {
                   </Link>
                 )}
 
-                <div className="pt-4 space-y-4">
-                  {isLoggedIn ? (
+                <div className="pt-2 space-y-4">
+                  {user ? (
                     <button
                       className="block w-full text-center px-6 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      onClick={handleLogout}
                     >
                       Logout
                     </button>
                   ) : (
                     <Link
                       to="/login"
-                      className="block bg-primary text-white px-6 py-3 rounded-full text-center font-medium hover:bg-primary-focus transition-colors"
+                      className="block bg-primary text-white px-6 py-2 rounded-full text-center font-medium hover:bg-primary-focus transition-colors"
                     >
                       Login
                     </Link>

@@ -1,9 +1,11 @@
+import axios from "axios";
 import { motion } from "framer-motion";
-import Logo from "../../../components/Logo/Logo";
-import { Link } from "react-router";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+import Logo from "../../../components/Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -11,13 +13,51 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
 
   const handleRegister = (data) => {
-    console.log("after register", data);
+    const profileImage = data.photo[0];
+
     registerUser(data.email, data.password)
       .then((res) => {
         console.log(res.user);
+        // Store the image and get the photo Url==================>
+        const formData = new FormData();
+        formData.append("image", profileImage);
+
+        const image_Url = `https://api.imgbb.com/1/upload?expiration=600&key=${
+          import.meta.env.VITE_image_host
+        }`;
+
+        axios
+          .post(image_Url, formData)
+          .then((res) => {
+            console.log(res.data.data.url);
+            // Update user photo ==================>
+            const updateProfile = {
+              displayName: data.name,
+              photoURL: res.data.data.url,
+            };
+            updateUserProfile(updateProfile)
+              .then((res) => {
+                console.log(res);
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Registration Successful",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+                navigate("/")
+              })
+              .then((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -202,7 +242,7 @@ const Register = () => {
                   // value={formData.email}
                   // onChange={handleInputChange}
                   placeholder="Enter Your Email"
-                  className="w-full file file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
+                  className="w-full file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
                   required
                 />
               </div>
@@ -245,7 +285,7 @@ const Register = () => {
 
             <div>
               <div className="divider">or</div>
-              <GoogleLogin/>
+              <GoogleLogin />
             </div>
 
             {/* Sign In Link */}

@@ -1,13 +1,24 @@
 import { motion } from "framer-motion";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const GoogleLogin = () => {
   const { googleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
     googleLogin()
       .then((res) => {
-        console.log(res.user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `Welcome Back ${res.user.displayName}`,
+          text: "Your Login Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
