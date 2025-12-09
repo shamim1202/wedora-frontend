@@ -1,21 +1,26 @@
 import { createBrowserRouter } from "react-router";
-import RootLayout from "../layouts/RootLayout";
-import Home from "../pages/Home/Home/Home";
 import AuthLayout from "../layouts/AuthLayout";
-import Register from "../pages/Auth/Register/Register";
+import DashboardLayout from "../layouts/DashboardLayout";
+import RootLayout from "../layouts/RootLayout";
 import Login from "../pages/Auth/Login/Login";
+import Register from "../pages/Auth/Register/Register";
+import Bookings from "../pages/Dashboard/Bookings/Bookings";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import Profile from "../pages/Dashboard/Profile/Profile";
+import Home from "../pages/Home/Home/Home";
 import ErrorPage from "../pages/Shared/ErrorPage/ErrorPage";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
     children: [
-        {
-            index: true,
-            Component: Home
-        }
-    ]
+      {
+        index: true,
+        Component: Home,
+      },
+    ],
   },
   {
     path: "/",
@@ -23,16 +28,38 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/register",
-        Component: Register
+        Component: Register,
       },
       {
         path: "/login",
-        Component: Login
-      }
-    ]
+        Component: Login,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "profile",
+        Component: Profile,
+      },
+      {
+        path: "bookings",
+        Component: Bookings,
+      },
+      {
+        path: "payment-history",
+        Component: PaymentHistory,
+      },
+    ],
   },
   {
     path: "/*",
-    Component: ErrorPage
-  }
+    Component: ErrorPage,
+  },
 ]);

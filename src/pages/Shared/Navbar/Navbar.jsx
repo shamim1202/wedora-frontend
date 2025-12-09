@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import Logo from "../../../components/Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
 
-const Navbar = ({ isLoggedIn = false }) => {
+const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
   console.log(user)
@@ -74,7 +74,7 @@ const Navbar = ({ isLoggedIn = false }) => {
           {user ? (
             <div className="relative group">
               <button className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary hover:bg-primary/5 transition-all">
-                <img src={user.photoURL} alt="" className="rounded-full"/>
+                <img src={user.photoURL} alt="" className="w-10 h-10 rounded-full"/>
                 <span className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
                   {user.displayName}
                 </span>

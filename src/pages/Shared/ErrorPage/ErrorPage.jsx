@@ -1,4 +1,4 @@
-import Loading from '../Loading/Loading';
+
 
 const ErrorPage = () => {
     return (
