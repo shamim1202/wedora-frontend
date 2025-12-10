@@ -3,8 +3,8 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #f472b6;
-  --color-secondary: #d4af37;
+  --color-primary: #f472b6; /* Works great for: Buttons, Highlights, Hero section accents, CTAs like “Book Now”, Service cards */
+  --color-secondary: #d4af37; /* Ideal for: Badges, Decorations, Headings, orders, Price highlight, Premium package indicator */
   --color-accent: #1f1f36;
 
   --color-base-100: #faf7f2;

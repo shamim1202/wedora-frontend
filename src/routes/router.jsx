@@ -10,6 +10,7 @@ import Profile from "../pages/Dashboard/Profile/Profile";
 import Home from "../pages/Home/Home/Home";
 import ErrorPage from "../pages/Shared/ErrorPage/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
+import Services from "../pages/Services/Services";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "services",
+        Component: Services,
       },
     ],
   },

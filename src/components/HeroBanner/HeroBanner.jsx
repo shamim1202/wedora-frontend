@@ -29,7 +29,7 @@ const HeroBanner = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-accent dark:text-white leading-tight"
+            className="font-playfair text-3xl sm:text-4xl md:text-5xl  xl:text-6xl font-bold text-secondary dark:text-secondary leading-tight"
           >
             Let's Plan for
             <br />

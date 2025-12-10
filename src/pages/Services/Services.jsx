@@ -1,21 +1,19 @@
-import { motion } from "framer-motion";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const TopService = () => {
+const Services = () => {
   const axiosSecure = useAxiosSecure();
-
-  const { data: topServices = [] } = useQuery({
-    queryKey: ["topServices"],
+  const { data: services = [] } = useQuery({
+    queryKey: ["services"],
     queryFn: async () => {
-      const res = await axiosSecure.get("top-services");
+      const res = await axiosSecure.get("services");
       return res.data;
     },
   });
-
   return (
-    <section className="max-w-7xl mx-auto py-16 lg:py-20 bg-linear-to-br from-pink-50/50 via-background-light to-pink-50/30 dark:from-gray-900 dark:via-background-dark dark:to-gray-900">
+    <section className="max-w-7xl mx-auto py-16 lg:py-20 bg-linear-to-br from-pink-100/40 via-background-light to-pink-50/30 dark:from-gray-900 dark:via-background-dark dark:to-gray-900">
       <div className="px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -25,8 +23,10 @@ const TopService = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="font-playfair text-2xl md:text-5xl font-semibold text-secondary dark:text-secondary mb-3 sm:mb-4">
-            Our Signature <span className="font-bold text-primary">Wedding</span> Services
+          <h2 className="sm:max-w-2xl mx-auto font-playfair text-2xl md:text-5xl font-semibold text-secondary dark:text-secondary mb-3 sm:mb-4">
+            Perfect <span className="font-bold text-primary">Wedding</span>{" "}
+            Solutions for Every{" "}
+            <span className="font-bold text-primary">Couple</span>
           </h2>
           <p className="text-sm sm:text-base text-accent dark:text-gray-300 max-w-2xl mx-auto">
             Discover our comprehensive wedding services tailored to make your
@@ -36,7 +36,7 @@ const TopService = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
-          {topServices.map((service, i) => (
+          {services.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
@@ -66,7 +66,7 @@ const TopService = () => {
                 </h3>
                 <Link
                   to={`services/${service._id}`}
-                  className="px-6 py-2.5 text-sm font-medium border-2 border-primary/50 bg-primary/5 rounded-full transition-all duration-300 text-primary hover:bg-primary hover:text-white hover:border-primary"
+                  className="px-4 py-1.5 md:px-5 md:py-2 text-xs md:text-sm font-medium border-2 border-primary/30 rounded-full transition-all duration-300 bg-primary/10 text-primary hover:bg-primary hover:text-white hover:border-primary"
                 >
                   View Details
                 </Link>
@@ -76,23 +76,23 @@ const TopService = () => {
         </div>
 
         {/* See All Services Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center mt-4 md:mt-8"
-        >
-          <Link
-            to="/services"
-            className="px-8 py-3 text-base font-semibold bg-primary/80 text-white rounded-full shadow-lg hover:bg-primary transition-all duration-300"
+        {/* <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex justify-center mt-4 md:mt-8"
           >
-            See All Services
-          </Link>
-        </motion.div>
+            <Link
+              to="/services"
+              className="px-8 py-3 text-base font-semibold bg-primary text-white rounded-full shadow-lg hover:bg-primary-focus transition-all duration-300"
+            >
+              See All Services
+            </Link>
+          </motion.div> */}
       </div>
     </section>
   );
 };
 
-export default TopService;
+export default Services;
