@@ -65,7 +65,7 @@ const Services = () => {
                   {service.service_name}
                 </h3>
                 <Link
-                  to={`services/${service._id}`}
+                  to={`${service._id}`}
                   className="px-4 py-1.5 md:px-5 md:py-2 text-xs md:text-sm font-medium border-2 border-primary/30 rounded-full transition-all duration-300 bg-primary/10 text-primary hover:bg-primary hover:text-white hover:border-primary"
                 >
                   View Details
