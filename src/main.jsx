@@ -1,10 +1,11 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import { router } from "./routes/router.jsx";
 import { RouterProvider } from "react-router/dom";
 import AuthProvider from "./context/AuthContext/AuthProvider.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./index.css";
+import { router } from "./routes/router.jsx";
 
 const queryClient = new QueryClient();
 

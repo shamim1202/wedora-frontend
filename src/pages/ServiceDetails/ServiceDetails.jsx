@@ -3,19 +3,52 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useParams } from "react-router";
 import Loading from "../Shared/Loading/Loading";
+import { useState } from "react";
+import BookingModal from "../../components/Modal/BookingModal/BookingModal";
+import Swal from "sweetalert2";
 
 const ServiceDetails = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: service = [] } = useQuery({
+  const { data: service = {} } = useQuery({
     queryKey: ["serviceDetails", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`services/${id}`);
       return res.data;
     },
   });
+
+  const { data: blockedDates = [] } = useQuery({
+    queryKey: ["blockedDates", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/booked-dates/${id}`);
+      return res.data;
+    },
+  });
+
+  const handleBooking = async (data) => {
+    const res = await axiosSecure.post("/bookings", data);
+
+    if (!res.data.success) {
+      Swal.fire({
+        icon: "error",
+        title: "Booking Failed",
+        text: res.data.message,
+      });
+      return;
+    }
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Your Event Booking Has Been Successfully Done",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+    setIsModalOpen(false);
+  };
 
   if (loading) {
     return <Loading />;
@@ -32,35 +65,36 @@ const ServiceDetails = () => {
         />
 
         {/* >===>===>===> Title & Category <===<===<===< */}
-        <h1 className="text-xl md:text-3xl text-secondary font-semibold mb-2">
+        <h1 className="text-2xl md:text-3xl text-secondary font-semibold mb-2">
           {service.service_name}
         </h1>
-        <p className="text-sm text-gray-500 mb-4 capitalize">
+        <p className="text-sm text-gray-500 mb-2 capitalize">
           Category: {service.service_category}
         </p>
 
         {/* >===>===>===>===> Cost <===<===<===<===<*/}
-        <p className="text-xl font-semibold text-green-600 mb-4">
+        <p className="md:text-xl font-semibold text-green-600 mb-2">
           Tk. {service?.cost} {service?.unit}
         </p>
 
-        {/* >===>===>===> Short Description <===<===<===< */}
-        <p className="text-gray-700 mb-4">{service?.short_description}</p>
+        {/* >===>===>===> Long Description <===<===<===< */}
+        <h2 className="md:text-lg font-semibold md:mb-2 text-accent">
+          Details
+        </h2>
+        <p className="text-sm md:text-base text-gray-600 mb-4">
+          {service?.long_description}
+        </p>
 
         {/* >===>===>===> Rating & Reviews <===<===<===< */}
-        <p className="text-yellow-600 font-semibold mb-4">
+        <p className="text-yellow-600 font-semibold mb-2">
           ⭐ {service?.rating} (
           {service?.review_count ? service.review_count : 0} reviews)
         </p>
 
-        {/* >===>===>===> Long Description <===<===<===< */}
-        <h2 className="text-2xl font-semibold mb-2">Details</h2>
-        <p className="text-gray-700 mb-4">{service?.long_description}</p>
-
         {/* >===>===>===>===> Providers <===<===<===<===< */}
-        <div className="mb-4">
+        <div className="mb-2">
           <h3 className="font-semibold">Providers:</h3>
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside text-sm md:text-base">
             {service?.providers?.map((provider) => (
               <li key={provider}>{provider}</li>
             ))}
@@ -68,7 +102,7 @@ const ServiceDetails = () => {
         </div>
 
         {/* >===>===>===>===> Tags <===<===<===<===< */}
-        <div className="mb-4">
+        <div className="mb-2 md:mb-4">
           <h3 className="font-semibold">Tags:</h3>
           <div className="flex flex-wrap gap-2 mt-1">
             {service?.tags?.map((tag) => (
@@ -83,8 +117,8 @@ const ServiceDetails = () => {
         </div>
 
         {/* >===>===>===>===> Status <===<===<===<===<*/}
-        <p className="mb-4">
-          Status:{" "}
+        <p className="mb-2">
+          <span className="font-semibold">Status:</span>{" "}
           {service?.status ? (
             <span
               className={
@@ -102,11 +136,20 @@ const ServiceDetails = () => {
 
         {/* Optional: Book Now Button */}
         <button
+          onClick={() => setIsModalOpen(true)}
           type="submit"
-          className="mt-6 px-6 py-2.5 bg-primary/90 text-white rounded-md hover:bg-primary transition-all duration-300"
+          className="mt-6 w-full md:w-auto btn btn-sm md:btn-md btn-secondary hover:btn-primary transition-all duration-300"
         >
           Book Now
         </button>
+        <BookingModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          user={user}
+          service={service}
+          blockedDates={blockedDates}
+          onSubmit={handleBooking}
+        />
       </div>
     </div>
   );
