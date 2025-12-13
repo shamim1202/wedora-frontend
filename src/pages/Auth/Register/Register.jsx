@@ -6,6 +6,7 @@ import Logo from "../../../components/Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import Swal from "sweetalert2";
+import { saveOrUpdateUser } from "../../../utilities";
 
 const Register = () => {
   const {
@@ -114,8 +115,13 @@ const Register = () => {
         role: "user",
         uid: uid,
       };
+      const result = await saveOrUpdateUser(userInfo);
 
-      const dbRes = await axios.post("http://localhost:3000/users", userInfo);
+      if (result?.message === "User already exists") {
+        console.log("User already exists in DB");
+      } else {
+        console.log("User saved in DB:", result);
+      }
 
       //===>====>====>=====> Success Alert & Redirect
       Swal.fire({

@@ -12,11 +12,13 @@ import ErrorPage from "../pages/Shared/ErrorPage/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
 import Services from "../pages/Services/Services";
 import ServiceDetails from "../pages/ServiceDetails/ServiceDetails";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -29,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "services/:id",
         Component: ServiceDetails,
+      },
+      {
+        path: "about",
+        Component: AboutUs,
       },
     ],
   },
@@ -67,9 +73,5 @@ export const router = createBrowserRouter([
         Component: PaymentHistory,
       },
     ],
-  },
-  {
-    path: "/*",
-    Component: ErrorPage,
   },
 ]);

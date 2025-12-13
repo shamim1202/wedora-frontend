@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import Logo from "../../../components/Logo/Logo";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import Swal from "sweetalert2";
+import Loading from "../../Shared/Loading/Loading";
 
 const Login = () => {
   const {
@@ -12,9 +13,22 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loginUser } = useAuth();
-  const navigate = useNavigate()
+  const {
+    user,
+    loginUser,
+    googleLogin,
+    updateUserProfile,
+    loading,
+    setLoading,
+  } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
 
+  if (loading) return <Loading></Loading>;
+  if (user) return <Navigate to={from} replace={true}></Navigate>;
+
+  // Handle Login Form Submit
   const handleLogin = (data) => {
     loginUser(data.email, data.password)
       .then((res) => {
@@ -26,7 +40,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/")
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -158,7 +172,7 @@ const Login = () => {
                   <input
                     type="password"
                     {...register("password", { required: true })}
-                    placeholder="Enter Your Password"
+                    placeholder="************"
                     className="w-full border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 py-3 transition-colors"
                     required
                   />
@@ -192,7 +206,7 @@ const Login = () => {
                   type="submit"
                   className="w-full mt-4 md:mt-6 py-2 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all duration-300"
                 >
-                  Login
+                  {loading ? "Logging In..." : "Login"}
                 </motion.button>
               </motion.form>
 

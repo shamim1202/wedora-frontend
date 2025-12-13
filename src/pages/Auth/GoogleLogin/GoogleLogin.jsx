@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const GoogleLogin = () => {
   const { googleLogin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleGoogleLogin = () => {
     googleLogin()
@@ -18,7 +20,7 @@ const GoogleLogin = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);

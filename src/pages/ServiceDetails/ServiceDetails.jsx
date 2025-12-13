@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Loading from "../Shared/Loading/Loading";
 import { useState } from "react";
 import BookingModal from "../../components/Modal/BookingModal/BookingModal";
@@ -12,6 +12,7 @@ const ServiceDetails = () => {
   const axiosSecure = useAxiosSecure();
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { data: service = {} } = useQuery({
     queryKey: ["serviceDetails", id],
@@ -136,11 +137,17 @@ const ServiceDetails = () => {
 
         {/* Optional: Book Now Button */}
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (!user) {
+              navigate("/login", { state: { from: `/services/${id}` } });
+            } else {
+              setIsModalOpen(true);
+            }
+          }}
           type="submit"
           className="mt-6 w-full md:w-auto btn btn-sm md:btn-md btn-secondary hover:btn-primary transition-all duration-300"
         >
-          Book Now
+           {user ? "Book Now" : "Login to Book"}
         </button>
         <BookingModal
           isOpen={isModalOpen}
