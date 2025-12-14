@@ -13,6 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 import Services from "../pages/Services/Services";
 import ServiceDetails from "../pages/ServiceDetails/ServiceDetails";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import AddDecorationService from "../pages/Dashboard/Admin/AddDecorationService";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         Component: PaymentHistory,
+      },
+      {
+        path: "add-decoration-service",
+        Component: AddDecorationService,
       },
     ],
   },

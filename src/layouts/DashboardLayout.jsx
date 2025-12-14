@@ -3,7 +3,7 @@ import { BiHomeHeart } from "react-icons/bi";
 import { FaCreditCard } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { LuPanelRightClose, LuPanelRightOpen } from "react-icons/lu";
-import { MdOutlineEventAvailable } from "react-icons/md";
+import { MdEventAvailable, MdOutlineEventAvailable } from "react-icons/md";
 import { Link, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -87,6 +87,16 @@ const DashboardLayout = () => {
               >
                 <FaCreditCard size={24} color="#1f1f36" />
                 <span className="is-drawer-close:hidden">Payment History</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/add-decoration-service"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="add-decoration-service"
+              >
+                <MdEventAvailable size={24} color="#1f1f36" />
+                <span className="is-drawer-close:hidden">Add Decoration Service</span>
               </Link>
             </li>
           </ul>

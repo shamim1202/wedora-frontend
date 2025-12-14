@@ -1,21 +1,25 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Logo from "../../../components/Logo/Logo";
 import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import Swal from "sweetalert2";
-import { saveOrUpdateUser } from "../../../utilities";
+import { saveOrUpdateUser, uploadImageToImgBB } from "../../../utilities";
 
 const Register = () => {
+  const { registerUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
+  const locaton = useLocation();
+  const from = locaton.state || "/";
+
+  // React Hook Form setup
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUser, updateUserProfile } = useAuth();
-  const navigate = useNavigate();
 
   // const handleRegister = (data) => {
   //   const profileImage = data.photo[0];
@@ -85,62 +89,88 @@ const Register = () => {
   //     });
   // };
 
+  // const handleRegister = async (data) => {
+  //   try {
+  //     //===>====>====>=====> Firebase Create User
+  //     const res = await registerUser(data.email, data.password);
+  //     const uid = res.user.uid;
+
+  //     //===>====>====>=====> Upload Profile Image to ImageBB
+  //     const formData = new FormData();
+  //     formData.append("image", data.photo[0]);
+  //     const imageUploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${
+  //       import.meta.env.VITE_image_host
+  //     }`;
+
+  //     const imgRes = await axios.post(imageUploadUrl, formData);
+  //     const photoURL = imgRes.data.data.url;
+
+  //     //===>====>====>=====> Update Firebase Profile
+  //     await updateUserProfile({
+  //       displayName: data.name,
+  //       photoURL: photoURL,
+  //     });
+
+  //     //===>====>====>=====> Save User to MongoDB
+  //     const userInfo = {
+  //       name: data.name,
+  //       email: data.email,
+  //       photo: photoURL,
+  //       role: "user",
+  //       uid: uid,
+  //     };
+  //     const result = await saveOrUpdateUser(userInfo);
+
+  //     if (result?.message === "User already exists") {
+  //       console.log("User already exists in DB");
+  //     } else {
+  //       console.log("User saved in DB:", result);
+  //     }
+
+  //     //===>====>====>=====> Success Alert & Redirect
+  //     Swal.fire({
+  //       position: "top-end",
+  //       icon: "success",
+  //       title: `${data.name} Welcome to Wedora`,
+  //       text: "Your Registration Successful",
+  //       showConfirmButton: false,
+  //       timer: 2500,
+  //     });
+
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.error("Registration Error:", err);
+
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Oops!",
+  //       text: err.message || "Something went wrong.",
+  //     });
+  //   }
+  // };
+
   const handleRegister = async (data) => {
+    const { name, email, password, image } = data;
+    console.log(name, email, password)
+    const imageFile = image[0];
+
     try {
-      //===>====>====>=====> Firebase Create User
-      const res = await registerUser(data.email, data.password);
-      const uid = res.user.uid;
-
-      //===>====>====>=====> Upload Profile Image to ImageBB
-      const formData = new FormData();
-      formData.append("image", data.photo[0]);
-      const imageUploadUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${
-        import.meta.env.VITE_image_host
-      }`;
-
-      const imgRes = await axios.post(imageUploadUrl, formData);
-      const photoURL = imgRes.data.data.url;
-
-      //===>====>====>=====> Update Firebase Profile
-      await updateUserProfile({
-        displayName: data.name,
-        photoURL: photoURL,
-      });
-
-      //===>====>====>=====> Save User to MongoDB
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        photo: photoURL,
-        role: "user",
-        uid: uid,
-      };
-      const result = await saveOrUpdateUser(userInfo);
-
-      if (result?.message === "User already exists") {
-        console.log("User already exists in DB");
-      } else {
-        console.log("User saved in DB:", result);
-      }
-
-      //===>====>====>=====> Success Alert & Redirect
+      const imageURL = await uploadImageToImgBB(imageFile);
+      // Register user with email and password
+      const result = await registerUser(email, password);
+      await updateUserProfile(name, imageURL);
       Swal.fire({
-        position: "top-end",
         icon: "success",
-        title: `${data.name} Welcome to Wedora`,
-        text: "Your Registration Successful",
-        showConfirmButton: false,
-        timer: 2500,
+        title: `${name} Welcome to Wedora`,
+        text: "Registration Successful!",
       });
-
-      navigate("/");
-    } catch (err) {
-      console.error("Registration Error:", err);
-
+      navigate(from, { replace: true });
+      console.log(result);
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops!",
-        text: err.message || "Something went wrong.",
+        text: error.message || "Something went wrong.",
       });
     }
   };
@@ -257,9 +287,11 @@ const Register = () => {
                 </label>
                 <input
                   type="text"
-                  {...register("name", { required: true, minLength: 4 })}
-                  // value={formData.fullName}
-                  // onChange={handleInputChange}
+                  {...register("name", {
+                    required: true,
+                    minLength: 4,
+                    maxLength: 20,
+                  })}
                   placeholder="Enter Your Full Name"
                   className="w-full border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 p-3 transition-colors"
                   required
@@ -267,6 +299,11 @@ const Register = () => {
                 {errors.name?.type === "minLength" && (
                   <p role="alert" className="text-red-500">
                     Name at least 4 or more character longer.
+                  </p>
+                )}
+                {errors.name?.type === "maxLength" && (
+                  <p role="alert" className="text-red-500">
+                    Name Maximum 20 character longer.
                   </p>
                 )}
               </div>
@@ -278,13 +315,18 @@ const Register = () => {
                 </label>
                 <input
                   type="email"
-                  {...register("email", { required: true })}
-                  // value={formData.email}
-                  // onChange={handleInputChange}
+                  {...register("email", {
+                    required: true,
+                    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  })}
                   placeholder="Enter Your Email"
                   className="w-full border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 p-3 transition-colors"
-                  required
                 />
+                {errors.email?.type === "pattern" && (
+                  <p role="alert" className="text-red-500">
+                    Enter a valid email address.
+                  </p>
+                )}
               </div>
 
               {/* Password Field */}
@@ -298,11 +340,8 @@ const Register = () => {
                     required: true,
                     pattern: /^(?=.*[a-z])(?=.*[A-Z]).{8,20}$/,
                   })}
-                  // value={formData.password}
-                  // onChange={handleInputChange}
-                  placeholder="Enter Your Password"
+                  placeholder="**************"
                   className="w-full border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500 p-3 transition-colors"
-                  required
                 />
                 {errors.password?.type === "pattern" && (
                   <p role="alert" className="text-red-500">
@@ -315,17 +354,17 @@ const Register = () => {
               {/* Image field */}
               <div>
                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                  Image
+                  Profile Image
                 </label>
                 <input
                   type="file"
-                  {...register("photo", { required: true })}
-                  // value={formData.email}
-                  // onChange={handleInputChange}
-                  placeholder="Enter Your Email"
-                  className="w-full file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-700 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
-                  required
+                  accept="image/*"
+                  {...register("image")}
+                  className="w-full file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-600 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
                 />
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  PNG, JPG or JPEG (max - 2mb)
+                </p>
               </div>
 
               {/* Terms Checkbox */}
