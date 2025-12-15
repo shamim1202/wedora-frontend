@@ -1,6 +1,13 @@
 import { useForm } from "react-hook-form";
+import { uploadImageToImgBB } from "../../../utilities";
+import { use } from "react";
+import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
 
 const AddDecorationService = ({ onSubmit }) => {
+
+  const { user } = useAuth();
+  // React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -8,18 +15,40 @@ const AddDecorationService = ({ onSubmit }) => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = (data) => {
-    const formattedData = {
-      ...data,
-      cost: Number(data.cost),
-      providers: data.providers.split(",").map((p) => p.trim()),
-      tags: data.tags.split(",").map((t) => t.trim()),
-      rating: 0,
-      review_count: 0,
-    };
+  const submitHandler = async (data) => {
+    const { cost, image, long_description, providers, service_category, service_name, short_description, status, tags, unit } = data
+    const imageFile = image[0];
 
-    onSubmit(formattedData);
-    reset();
+    const imageURL = await uploadImageToImgBB(imageFile);
+    const serviceData = {
+      service_name,
+      service_category,
+      cost: Number(cost),
+      image: imageURL,
+      long_description,
+      providers: providers.split(",").map((p) => p.trim()),
+      short_description,
+      status,
+      tags: tags.split(",").map((t) => t.trim()),
+      unit
+    }
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_server_url}add-service`, serviceData)
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+    // const formattedData = {
+    //   ...data,
+    //   cost: Number(data.cost),
+    //   providers: data.providers.split(",").map((p) => p.trim()),
+    //   tags: data.tags.split(",").map((t) => t.trim()),
+    //   rating: 0,
+    //   review_count: 0,
+    // };
+
+    // onSubmit(formattedData);
+    // reset();
   };
 
   return (
@@ -37,7 +66,7 @@ const AddDecorationService = ({ onSubmit }) => {
       <form onSubmit={handleSubmit(submitHandler)} className="space-y-6">
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Service Name */}
+          {/*------------- Service Name --------------*/}
           <div>
             <label className="form-label">Service Name</label>
             <input
@@ -50,7 +79,7 @@ const AddDecorationService = ({ onSubmit }) => {
             )}
           </div>
 
-          {/* Category */}
+          {/*------------ Category -------------*/}
           <div>
             <label className="form-label">Category</label>
             <select
@@ -65,18 +94,21 @@ const AddDecorationService = ({ onSubmit }) => {
             </select>
           </div>
 
-          {/* Cost */}
+          {/*------------ Cost --------------*/}
           <div>
             <label className="form-label">Price</label>
             <input
               type="number"
-              {...register("cost", { required: true })}
+              {...register("cost", { required: true, min: 0 })}
               placeholder="50000"
               className="input input-bordered w-full"
             />
+            {errors.cost && (
+              <p className="text-red-500 text-xs mt-1">Price must be positive</p>
+            )}
           </div>
 
-          {/* Unit */}
+          {/*------------- Unit ---------------*/}
           <div>
             <label className="form-label">Pricing Unit</label>
             <input
@@ -87,23 +119,23 @@ const AddDecorationService = ({ onSubmit }) => {
           </div>
         </div>
 
-        {/* Image */}
-         <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                  Profile Image
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  {...register("image")}
-                  className="w-full file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-600 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
-                />
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  PNG, JPG or JPEG (max - 2mb)
-                </p>
-              </div>
+        {/*------------ Image -----------*/}
+        <div>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+            Profile Image
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            {...register("image")}
+            className="w-full file-input border-0 border-b-2 border-gray-200 dark:border-gray-700 focus:ring-0 focus:border-primary dark:focus:border-primary bg-transparent text-gray-600 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500  transition-colors"
+          />
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            PNG, JPG or JPEG (max - 2mb)
+          </p>
+        </div>
 
-        {/* Short Description */}
+        {/*-------------- Short Description --------------*/}
         <div>
           <label className="form-label">Short Description</label>
           <textarea
@@ -113,7 +145,7 @@ const AddDecorationService = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Long Description */}
+        {/*--------- Long Description */}
         <div>
           <label className="form-label">Detailed Description</label>
           <textarea
@@ -123,7 +155,7 @@ const AddDecorationService = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Providers */}
+        {/*------------- Providers -------------*/}
         <div>
           <label className="form-label">Providers</label>
           <input
@@ -136,7 +168,7 @@ const AddDecorationService = ({ onSubmit }) => {
           </p>
         </div>
 
-        {/* Tags */}
+        {/*------------- Tags --------------*/}
         <div>
           <label className="form-label">Tags</label>
           <input
@@ -146,7 +178,7 @@ const AddDecorationService = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Status */}
+        {/*------------- Status -------------*/}
         <div>
           <label className="form-label">Service Status</label>
           <select
@@ -162,9 +194,9 @@ const AddDecorationService = ({ onSubmit }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full btn btn-lg bg-primary text-white hover:bg-primary/90 transition-all rounded-full"
+          className="btn btn-sm md:btn-md bg-primary text-white hover:bg-primary/90 transition-all rounded-full"
         >
-          Add Decoration Service
+          add-service
         </button>
       </form>
     </div>

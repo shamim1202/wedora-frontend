@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
         Component: PaymentHistory,
       },
       {
-        path: "add-decoration-service",
+        path: "add-service",
         Component: AddDecorationService,
       },
     ],

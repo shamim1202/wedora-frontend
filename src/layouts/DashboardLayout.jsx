@@ -91,12 +91,12 @@ const DashboardLayout = () => {
             </li>
             <li>
               <Link
-                to="/dashboard/add-decoration-service"
+                to="/dashboard/add-service"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="add-decoration-service"
+                data-tip="add-service"
               >
                 <MdEventAvailable size={24} color="#1f1f36" />
-                <span className="is-drawer-close:hidden">Add Decoration Service</span>
+                <span className="is-drawer-close:hidden">add-service</span>
               </Link>
             </li>
           </ul>
