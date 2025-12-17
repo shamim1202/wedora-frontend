@@ -14,6 +14,7 @@ import Services from "../pages/Services/Services";
 import ServiceDetails from "../pages/ServiceDetails/ServiceDetails";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import AddDecorationService from "../pages/Dashboard/Admin/AddDecorationService";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
         path: "about",
         Component: AboutUs,
       },
+      {
+        path: "contact",
+        Component: Contact,
+      }
     ],
   },
   {

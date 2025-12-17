@@ -2,16 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../Shared/Loading/Loading";
+import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 const Services = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: services = [] } = useQuery({
+  const { data: services = [], isLoading, isError } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
       const res = await axiosSecure.get("services");
       return res.data;
     },
   });
+  if (isLoading) return <Loading></Loading>
+  if (isError) return <ErrorPage></ErrorPage>
+  
   return (
     <section className="max-w-7xl mx-auto py-16 lg:py-20 bg-linear-to-br from-pink-100/40 via-background-light to-pink-50/30 dark:from-gray-900 dark:via-background-dark dark:to-gray-900">
       <div className="px-4 sm:px-6 lg:px-8">

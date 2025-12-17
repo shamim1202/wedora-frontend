@@ -1,12 +1,45 @@
 import { useForm } from "react-hook-form";
 import { uploadImageToImgBB } from "../../../utilities";
-import { use } from "react";
 import useAuth from "../../../hooks/useAuth";
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import Loading from "../../Shared/Loading/Loading";
+import ErrorPage from "../../Shared/ErrorPage/ErrorPage";
+import Swal from "sweetalert2";
+import { SiSpine } from "react-icons/si";
+import { ImSpinner5 } from "react-icons/im";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const AddDecorationService = ({ onSubmit }) => {
-
+const AddDecorationService = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  // Post new service to the server via tanstack query mutation
+  const { isPending, isError, mutateAsync } = useMutation({
+    mutationFn: async (payload) => await axiosSecure.post("/add-service", payload),
+    onSuccess: data => {
+      console.log(data)
+      if (data?.data?.insertedId) {
+        Swal.fire({
+          icon: "success",
+          title: "Service Added",
+          text: `Service Added Successfully Done!`,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    },
+    onError: error => {
+      console.log(error)
+    },
+    onMutate: payload => {
+      console.log("I will post this data--->", payload)
+    },
+    onSettled: (data, error) => {
+      if (data) console.log(data)
+      if (error) console.log(error)
+    }
+  })
+
   // React Hook Form setup
   const {
     register,
@@ -18,37 +51,27 @@ const AddDecorationService = ({ onSubmit }) => {
   const submitHandler = async (data) => {
     const { cost, image, long_description, providers, service_category, service_name, short_description, status, tags, unit } = data
     const imageFile = image[0];
-
-    const imageURL = await uploadImageToImgBB(imageFile);
-    const serviceData = {
-      service_name,
-      service_category,
-      cost: Number(cost),
-      image: imageURL,
-      long_description,
-      providers: providers.split(",").map((p) => p.trim()),
-      short_description,
-      status,
-      tags: tags.split(",").map((t) => t.trim()),
-      unit
-    }
     try {
-      const res = await axios.post(`${import.meta.env.VITE_server_url}add-service`, serviceData)
-      console.log(res)
+      const imageURL = await uploadImageToImgBB(imageFile);
+      const serviceData = {
+        service_name,
+        service_category,
+        cost: Number(cost),
+        image: imageURL,
+        long_description,
+        providers: providers.split(",").map((p) => p.trim()),
+        short_description,
+        status,
+        tags: tags.split(",").map((t) => t.trim()),
+        unit
+      }
+      await mutateAsync(serviceData);
+      reset();
     } catch (err) {
       console.log(err)
     }
-    // const formattedData = {
-    //   ...data,
-    //   cost: Number(data.cost),
-    //   providers: data.providers.split(",").map((p) => p.trim()),
-    //   tags: data.tags.split(",").map((t) => t.trim()),
-    //   rating: 0,
-    //   review_count: 0,
-    // };
-
-    // onSubmit(formattedData);
-    // reset();
+    if (isPending) return <Loading></Loading>
+    if (isError) return <ErrorPage></ErrorPage>
   };
 
   return (
@@ -135,9 +158,9 @@ const AddDecorationService = ({ onSubmit }) => {
           </p>
         </div>
 
-        {/*-------------- Short Description --------------*/}
+        {/*------------------ Description -----------------*/}
         <div>
-          <label className="form-label">Short Description</label>
+          <label className="form-label">Description</label>
           <textarea
             {...register("short_description", { required: true })}
             placeholder="A brief overview of the decoration service"
@@ -196,7 +219,7 @@ const AddDecorationService = ({ onSubmit }) => {
           type="submit"
           className="btn btn-sm md:btn-md bg-primary text-white hover:bg-primary/90 transition-all rounded-full"
         >
-          add-service
+          {isPending ? (<ImSpinner5 className="animate-spin m-auto" />) : "Add Service"}
         </button>
       </form>
     </div>
