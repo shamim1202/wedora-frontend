@@ -59,6 +59,8 @@ const BookingModal = ({
             const bookingData = {
               userEmail: user.email,
               userName: user.displayName,
+              rate: service.cost,
+              bookingType: service.unit,
               serviceId: service._id,
               serviceName: service.service_name,
               date: selectedDate.toISOString().split("T")[0],
@@ -77,7 +79,7 @@ const BookingModal = ({
               type="text"
               value={user.displayName}
               disabled
-              className="input input-bordered w-full dark:bg-gray-800"
+              className="input input-bordered w-full dark:bg-gray-800 bg-primary/20"
             />
           </div>
 
@@ -90,8 +92,36 @@ const BookingModal = ({
               type="email"
               value={user.email}
               disabled
-              className="input input-bordered w-full dark:bg-gray-800"
+              className="input input-bordered w-full dark:bg-gray-800 bg-primary/20"
             />
+          </div>
+
+          <div className="flex flex-row gap-2 md:gap-4 ">
+            {/* >===>===>====> Rate <===<====<===< */}
+            <div className="flex-1">
+              <label className="block mb-1 text-sm md:text-base md:font-semibold">
+                Rate
+              </label>
+              <input
+                type="number"
+                value={service.cost}
+                disabled
+                className="input input-bordered w-full dark:bg-gray-800 bg-primary/20"
+              />
+            </div>
+
+            {/* >===>===>====> Booking Section Type <===<====<===< */}
+            <div className="flex-1">
+              <label className="block mb-1 text-sm md:text-base md:font-semibold">
+                Unit
+              </label>
+              <input
+                type="text"
+                value={service.unit}
+                disabled
+                className="input input-bordered w-full dark:bg-gray-800 bg-primary/20"
+              />
+            </div>
           </div>
 
           {/* >===>===>====> Booking Date <===<====<===< */}

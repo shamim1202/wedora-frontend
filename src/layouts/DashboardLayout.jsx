@@ -26,7 +26,6 @@ const DashboardLayout = () => {
             ) : (
               <LuPanelRightOpen size={24} color="#1f1f36" />
             )}
-            {/* <LuPanelRightClose size={24} color="#1f1f36" /> */}
           </label>
           <div className="px-4">Navbar Title</div>
         </nav>
@@ -41,11 +40,11 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-16 is-drawer-open:w-64 is-drawer-open:p-4">
+        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:pt-4 is-drawer-close:w-16 is-drawer-open:w-64 is-drawer-open:p-4">
           {/* >====>====>===> Sidebar content here <===<===<===< */}
           <ul className="menu w-full grow space-y-2">
             {/* >====>====>===> Dashboard Side Menu <===<===<===< */}
-            {/* >==>==> Homepage <==<==< */}
+            {/* >==>==>==>==>==>==> Homepage <==<==<==<==<==<==< */}
             <li>
               <Link
                 to="/"
@@ -89,6 +88,7 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Payment History</span>
               </Link>
             </li>
+            {/* >==>==> Add Service <==<==< */}
             <li>
               <Link
                 to="/dashboard/add-service"

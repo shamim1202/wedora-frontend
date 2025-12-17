@@ -15,6 +15,7 @@ import ServiceDetails from "../pages/ServiceDetails/ServiceDetails";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import AddDecorationService from "../pages/Dashboard/Admin/AddDecorationService";
 import Contact from "../pages/Contact/Contact";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
       {
         path: "bookings",
         Component: Bookings,
+      },
+      {
+        path: "payment/:bookingId",
+        Component: Payment,
       },
       {
         path: "payment-history",
