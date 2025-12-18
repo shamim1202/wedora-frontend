@@ -18,6 +18,7 @@ import Contact from "../pages/Contact/Contact";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
+import ServiceCoverageMap from "../pages/ServiceCoverageMap/ServiceCoverageMap";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "services/:id",
         Component: ServiceDetails,
+      },
+      {
+        path: "coverage",
+        Component: ServiceCoverageMap,
       },
       {
         path: "about",

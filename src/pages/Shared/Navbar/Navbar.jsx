@@ -48,6 +48,12 @@ const Navbar = () => {
             Services
           </Link>
           <Link
+            to="/coverage"
+            className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
+          >
+            Coverage
+          </Link>
+          <Link
             to="/about"
             className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
           >

@@ -51,7 +51,7 @@ const Bookings = () => {
   return (
     <div className="p-5 md:p-10">
       <h1 className="text-2xl md:text-4xl font-bold text-rose-800 md:mb-10 mb-5">
-        All of my booking Service : {bookings.length}
+        All booking Service
       </h1>
       <div className="overflow-x-auto">
         <table className="table">

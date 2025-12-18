@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { ImCross } from "react-icons/im";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -25,6 +27,7 @@ const BookingModal = ({
 
   const [selectedDate, setSelectedDate] = useState(null);
   const disabledDates = blockedDates.map((d) => new Date(d));
+  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -66,7 +69,27 @@ const BookingModal = ({
               date: selectedDate.toISOString().split("T")[0],
               location: e.target.location.value,
             };
-            onSubmit(bookingData);
+            Swal.fire({
+              title: "Are you sure?",
+              text: `You want to Book this ${service.service_name} service?`,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, Confirm!",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                onSubmit(bookingData);
+                Swal.fire({
+                  icon: "success",
+                  title: "Success!",
+                  text: `Your booking for ${service.service_name} is confirmed.`,
+                  timer: 2000,
+                  showConfirmButton: false,
+                });
+                navigate("/dashboard/bookings");
+              }
+            });
           }}
           className="space-y-4"
         >
