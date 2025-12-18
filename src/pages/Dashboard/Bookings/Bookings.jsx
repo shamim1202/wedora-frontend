@@ -78,7 +78,7 @@ const Bookings = () => {
                 <td>{b.rate}</td>
                 <td>
                   {b.paymentStatus ? (
-                    <span className="text-green-500 font-semibold">Paid</span>
+                    <span className="md:text-xl text-green-500 font-semibold">Paid</span>
                   ) : (
                     <Link
                       to={`/dashboard/payment/${b._id}`}

@@ -16,6 +16,8 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import AddDecorationService from "../pages/Dashboard/Admin/AddDecorationService";
 import Contact from "../pages/Contact/Contact";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -87,6 +89,14 @@ export const router = createBrowserRouter([
         path: "add-service",
         Component: AddDecorationService,
       },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancelled",
+        Component: PaymentCancel,
+      }
     ],
   },
 ]);
