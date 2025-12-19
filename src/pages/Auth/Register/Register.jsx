@@ -23,14 +23,21 @@ const Register = () => {
 
   const handleRegister = async (data) => {
     const { name, email, password, image } = data;
-    console.log(name, email, password)
     const imageFile = image[0];
 
     try {
       const imageURL = await uploadImageToImgBB(imageFile);
       // Register user with email and password
       const result = await registerUser(email, password);
+      // Update user profile with name and image
       await updateUserProfile(name, imageURL);
+      // Save user to database
+      await saveOrUpdateUser({
+        uid: result.user.uid,
+        displayName: name,
+        email,
+        image: imageURL,
+      });
       Swal.fire({
         icon: "success",
         title: `${name} Welcome to Wedora`,
@@ -39,10 +46,16 @@ const Register = () => {
       navigate(from, { replace: true });
       console.log(result);
     } catch (error) {
+      let message = "Something went wrong.";
+
+      if (error.code === "auth/email-already-in-use") {
+        message = "This email is already registered.";
+      }
+
       Swal.fire({
         icon: "error",
-        title: "Oops!",
-        text: error.message || "Something went wrong.",
+        title: "Registration Failed",
+        text: message,
       });
     }
   };

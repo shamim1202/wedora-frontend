@@ -19,6 +19,8 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
 import ServiceCoverageMap from "../pages/ServiceCoverageMap/ServiceCoverageMap";
+import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
+import Statistics from "../pages/Dashboard/Statistics/Statistics";
 
 export const router = createBrowserRouter([
   {
@@ -49,7 +51,7 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         Component: Contact,
-      }
+      },
     ],
   },
   {
@@ -80,7 +82,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "bookings",
-        Component: Bookings,
+        element: (
+          <PrivateRoute>
+            <Bookings></Bookings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment/:bookingId",
@@ -92,7 +98,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-service",
-        Component: AddDecorationService,
+        element: (
+          <PrivateRoute>
+            <AddDecorationService></AddDecorationService>
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment-success",
@@ -101,7 +111,23 @@ export const router = createBrowserRouter([
       {
         path: "payment-cancelled",
         Component: PaymentCancel,
-      }
+      },
+      {
+        path: "manage-users",
+        element: (
+          <PrivateRoute>
+            <ManageUsers></ManageUsers>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "statistics",
+        element: (
+          <PrivateRoute>
+            <Statistics></Statistics>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

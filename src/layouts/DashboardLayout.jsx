@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { BiHomeHeart } from "react-icons/bi";
-import { FaCreditCard } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import { LuPanelRightClose, LuPanelRightOpen } from "react-icons/lu";
-import { MdEventAvailable, MdOutlineEventAvailable } from "react-icons/md";
 import { Link, Outlet } from "react-router";
+import useRole from "../hooks/useRole";
+import Loading from "../pages/Shared/Loading/Loading";
+import UserMenu from "../components/UserMenu/UserMenu";
+import AdminMenu from "../components/AdminMenu/AdminMenu";
+import { GrPieChart } from "react-icons/gr";
 
 const DashboardLayout = () => {
   const [open, setOpen] = useState(true);
+  const [role, isRoleLoading] = useRole();
+
+  if (isRoleLoading) return <Loading />;
   return (
     <div className="drawer md:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -44,7 +50,7 @@ const DashboardLayout = () => {
           {/* >====>====>===> Sidebar content here <===<===<===< */}
           <ul className="menu w-full grow space-y-2">
             {/* >====>====>===> Dashboard Side Menu <===<===<===< */}
-            {/* >==>==>==>==>==>==> Homepage <==<==<==<==<==<==< */}
+            {/* >==>==> Homepage <==<==< */}
             <li>
               <Link
                 to="/"
@@ -55,6 +61,7 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Homepage</span>
               </Link>
             </li>
+
             {/* >==>==> Profile <==<==< */}
             <li>
               <Link
@@ -66,39 +73,24 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Profile</span>
               </Link>
             </li>
-            {/* >==>==> Bookings <==<==< */}
+
+            {/* >==>==> Profile <==<==< */}
             <li>
               <Link
-                to="/dashboard/bookings"
+                to="/dashboard/statistics"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Bookings"
+                data-tip="Statistics"
               >
-                <MdOutlineEventAvailable size={24} color="#1f1f36" />
-                <span className="is-drawer-close:hidden">Bookings</span>
+                <GrPieChart size={24} color="#1f1f36" />
+                <span className="is-drawer-close:hidden">Statistics</span>
               </Link>
             </li>
-            {/* >==>==> Payment History <==<==< */}
-            <li>
-              <Link
-                to="/dashboard/payment-history"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="payment-history"
-              >
-                <FaCreditCard size={24} color="#1f1f36" />
-                <span className="is-drawer-close:hidden">Payment History</span>
-              </Link>
-            </li>
-            {/* >==>==> Add Service <==<==< */}
-            <li>
-              <Link
-                to="/dashboard/add-service"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="add-service"
-              >
-                <MdEventAvailable size={24} color="#1f1f36" />
-                <span className="is-drawer-close:hidden">add-service</span>
-              </Link>
-            </li>
+
+            {/* >==>==> User <==<==< */}
+            {role === "user" && <UserMenu></UserMenu>}
+
+            {/* >==>==> Admin <==<==< */}
+            {role === "admin" && <AdminMenu></AdminMenu>}
           </ul>
         </div>
       </div>

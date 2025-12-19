@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 export const uploadImageToImgBB = async (imageFile) => {
   const formData = new FormData();
@@ -14,8 +15,11 @@ export const uploadImageToImgBB = async (imageFile) => {
 // Save or update  user in db
 export const saveOrUpdateUser = async (userData) => {
   const { data } = await axios.post(
-    `${import.meta.env.VITE_server_url}/user`,
+    `${import.meta.env.VITE_server_url}/users`,
     userData
   );
+  if (data?.insertedId || data.modifiedCount) {
+    console.log("user created in the database successfully");
+  }
   return data;
 };

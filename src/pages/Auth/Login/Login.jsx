@@ -13,14 +13,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const {
-    user,
-    loginUser,
-    googleLogin,
-    updateUserProfile,
-    loading,
-    setLoading,
-  } = useAuth();
+  const { user, loginUser, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -29,7 +22,7 @@ const Login = () => {
   if (user) return <Navigate to={from} replace={true}></Navigate>;
 
   // Handle Login Form Submit
-  const handleLogin = (data) => {
+  const handleLogin = async (data) => {
     loginUser(data.email, data.password)
       .then((res) => {
         Swal.fire({

@@ -4,7 +4,8 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.VITE_server_url,
+  withCredentials: true,
 });
 
 const useAxiosSecure = () => {
@@ -37,7 +38,7 @@ const useAxiosSecure = () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-  }, [user]);
+  }, [user, logOut, navigate]);
   return axiosSecure;
 };
 

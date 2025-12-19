@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router";
+import { saveOrUpdateUser } from "../../../utilities";
 
 const GoogleLogin = () => {
   const { googleLogin } = useAuth();
@@ -9,7 +10,7 @@ const GoogleLogin = () => {
   const location = useLocation();
   const from = location.state?.from || "/";
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     googleLogin()
       .then((res) => {
         Swal.fire({
@@ -21,6 +22,12 @@ const GoogleLogin = () => {
           timer: 1500,
         });
         navigate(from, { replace: true });
+        saveOrUpdateUser({
+          uid: res.user.uid,
+          displayName: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        });
       })
       .catch((err) => {
         console.log(err);
