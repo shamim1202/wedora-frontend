@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { saveOrUpdateUser, uploadImageToImgBB } from "../../../utilities";
 
 const Register = () => {
-  const { registerUser, updateUserProfile } = useAuth();
+  const { registerUser, updateUserProfile, loading } = useAuth();
   const navigate = useNavigate();
   const locaton = useLocation();
   const from = locaton.state || "/";
@@ -282,9 +282,13 @@ const Register = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full mt-4 md:mt-6 py-2 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all duration-300"
+                className="w-full mt-4 md:mt-6 py-2 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-lg hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all duration-300"
               >
-                Register Now
+                {loading ? (
+                    <span className="loading loading-bars loading-xs md:loading-sm"></span>
+                  ) : (
+                    "Register Now"
+                  )}
               </motion.button>
             </motion.form>
 

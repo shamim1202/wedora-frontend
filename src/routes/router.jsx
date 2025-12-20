@@ -23,6 +23,7 @@ import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import Statistics from "../pages/Dashboard/Statistics/Statistics";
 import MyAssignedProjects from "../pages/Dashboard/Decorator/MyAssignedProjects/MyAssignedProjects";
 import TodaysSchedule from "../pages/Dashboard/Decorator/TodaysSchedule/TodaysSchedule";
+import BecomeDecorator from "../pages/Dashboard/User/BecomeDecorator/BecomeDecorator";
 
 export const router = createBrowserRouter([
   {
@@ -145,6 +146,10 @@ export const router = createBrowserRouter([
             <TodaysSchedule></TodaysSchedule>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "become-decorator",
+        Component: BecomeDecorator,
       },
     ],
   },
