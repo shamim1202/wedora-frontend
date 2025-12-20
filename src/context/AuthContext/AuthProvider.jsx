@@ -20,27 +20,37 @@ const AuthProvider = ({ children }) => {
   // Create a new user ===========================>
   const registerUser = (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password).finally(() => {
+      setLoading(false);
+    });
   };
 
   // Login a existing user ===========================>
   const loginUser = (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password).finally(() => {
+      setLoading(false);
+    });
   };
 
   // Google User Login ===========================>
   const googleLogin = () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider);
+    return signInWithPopup(auth, googleProvider).finally(() => {
+      setLoading(false);
+    });
   };
 
   //   Update User Info ============================>
   const updateUserProfile = (name, photoURL, profile) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photoURL,
-    }, profile);
+    return updateProfile(
+      auth.currentUser,
+      {
+        displayName: name,
+        photoURL: photoURL,
+      },
+      profile
+    );
   };
 
   //   Logout User ===============================>

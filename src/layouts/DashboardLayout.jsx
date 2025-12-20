@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { BiHomeHeart } from "react-icons/bi";
-import { FaUser } from "react-icons/fa6";
 import { LuPanelRightClose, LuPanelRightOpen } from "react-icons/lu";
+import { HiOutlineUser } from "react-icons/hi";
 import { Link, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
 import Loading from "../pages/Shared/Loading/Loading";
 import UserMenu from "../components/UserMenu/UserMenu";
 import AdminMenu from "../components/AdminMenu/AdminMenu";
 import { GrPieChart } from "react-icons/gr";
+import DecoratorMenu from "../components/DecoratorMenu/DecoratorMenu";
 
 const DashboardLayout = () => {
   const [open, setOpen] = useState(true);
@@ -19,7 +20,7 @@ const DashboardLayout = () => {
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* >====>====>====>===> Nvabar <===<===<===<===< */}
-        <nav className="navbar w-full bg-base-300 p-5">
+        <nav className="navbar w-full bg-secondary/30 p-3 md:p-5">
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
@@ -33,7 +34,7 @@ const DashboardLayout = () => {
               <LuPanelRightOpen size={24} color="#1f1f36" />
             )}
           </label>
-          <div className="px-4">Navbar Title</div>
+          <div className="px-2 md:px-4 text-2xl md:text-4xl font-bold">Dashboard</div>
         </nav>
 
         {/* >====>=====>====> Nvabar <===<====<====<====< */}
@@ -69,12 +70,12 @@ const DashboardLayout = () => {
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="My Profile"
               >
-                <FaUser size={24} color="#1f1f36" />
+                <HiOutlineUser size={24} color="#1f1f36" />
                 <span className="is-drawer-close:hidden">Profile</span>
               </Link>
             </li>
 
-            {/* >==>==> Profile <==<==< */}
+            {/* >==>==> Statistics <==<==< */}
             <li>
               <Link
                 to="/dashboard/statistics"
@@ -86,11 +87,14 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            {/* >==>==> User <==<==< */}
-            {role === "user" && <UserMenu></UserMenu>}
-
             {/* >==>==> Admin <==<==< */}
             {role === "admin" && <AdminMenu></AdminMenu>}
+
+            {/* >==>==> Decorator <==<==< */}
+            {role === "decorator" && <DecoratorMenu></DecoratorMenu>}
+
+            {/* >==>==> User <==<==< */}
+            {role === "user" && <UserMenu></UserMenu>}
           </ul>
         </div>
       </div>

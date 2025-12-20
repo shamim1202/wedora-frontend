@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import Swal from "sweetalert2";
 import Loading from "../../Shared/Loading/Loading";
+import ErrorPage from "../../Shared/ErrorPage/ErrorPage";
 
 const Login = () => {
   const {
@@ -16,10 +17,7 @@ const Login = () => {
   const { user, loginUser, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state || "/";
-
-  if (loading) return <Loading></Loading>;
-  if (user) return <Navigate to={from} replace={true}></Navigate>;
+  const from = location.state?.from?.pathname || "/";
 
   // Handle Login Form Submit
   const handleLogin = async (data) => {
@@ -39,6 +37,9 @@ const Login = () => {
         console.log(err);
       });
   };
+
+  if (loading) return <Loading />;
+  if (user) return <Navigate to={from} replace />;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-pink-50/50 via-background-light to-pink-50/30 dark:from-gray-900 dark:via-background-dark dark:to-gray-900 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -199,7 +200,11 @@ const Login = () => {
                   type="submit"
                   className="w-full mt-4 md:mt-6 py-2 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all duration-300"
                 >
-                  {loading ? "Logging In..." : "Login"}
+                  {loading ? (
+                    <span className="loading loading-bars loading-xs md:loading-sm"></span>
+                  ) : (
+                    "Login"
+                  )}
                 </motion.button>
               </motion.form>
 

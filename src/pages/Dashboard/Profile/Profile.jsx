@@ -71,8 +71,8 @@ const Profile = () => {
           <h2 className="text-2xl md:text-3xl font-playfair font-semibold text-secondary">
             My Profile
           </h2>
-          <p className="w-fit mx-auto md:px-4 rounded py-1 text-accent text-sm md:text-base font-semibold mt-1 capitalize bg-primary text-white">
-            {/* {profile.role} */}
+          <p className="w-fit mx-auto md:px-4 rounded py-1 text-accent text-sm md:text-base font-semibold mt-1 md:mt-2 capitalize bg-primary text-white">
+            {role}
           </p>
         </div>
 

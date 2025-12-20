@@ -21,6 +21,8 @@ import PaymentCancel from "../pages/Dashboard/Payment/PaymentCancel";
 import ServiceCoverageMap from "../pages/ServiceCoverageMap/ServiceCoverageMap";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import Statistics from "../pages/Dashboard/Statistics/Statistics";
+import MyAssignedProjects from "../pages/Dashboard/Decorator/MyAssignedProjects/MyAssignedProjects";
+import TodaysSchedule from "../pages/Dashboard/Decorator/TodaysSchedule/TodaysSchedule";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +127,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Statistics></Statistics>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "assigned-project",
+        element: (
+          <PrivateRoute>
+            <MyAssignedProjects></MyAssignedProjects>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "todays-schedule",
+        element: (
+          <PrivateRoute>
+            <TodaysSchedule></TodaysSchedule>
           </PrivateRoute>
         ),
       },

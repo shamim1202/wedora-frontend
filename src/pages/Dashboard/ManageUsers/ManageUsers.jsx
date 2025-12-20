@@ -5,6 +5,12 @@ import Loading from "../../Shared/Loading/Loading";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
+  const adminClass =
+    "bg-primary/20 text-primary px-3 py-1 rounded text-xs md:text-sm font-medium";
+  const decoratorClass =
+    "bg-secondary/20 text-secondary px-3 py-1 rounded text-xs md:text-sm font-medium";
+  const userClass =
+    "bg-green-200 text-green-700 px-3 py-1 rounded text-xs md:text-sm font-medium";
 
   const {
     data: users = [],
@@ -91,8 +97,10 @@ const ManageUsers = () => {
                   <span
                     className={
                       user.role === "admin"
-                        ? "bg-green-200 text-green-700 px-3 py-1 rounded-full text-xs md:text-sm"
-                        : "bg-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs md:text-sm"
+                        ? adminClass
+                        : user.role === "decorator"
+                        ? decoratorClass
+                        : userClass
                     }
                   >
                     {user.role}
@@ -101,15 +109,15 @@ const ManageUsers = () => {
                 <td className="px-4 py-3 flex flex-wrap gap-2">
                   {user.role !== "admin" && (
                     <button
-                      onClick={() => handleRoleChange(user._id, "admin")}
-                      className="btn btn-sm btn-primary hover:btn-secondary transition-all duration-300"
+                      onClick={() => handleRoleChange(user._id, "decorator")}
+                      className="btn btn-sm btn-primary hover:btn-secondary text-white transition-all duration-300"
                     >
-                      Make Admin
+                      Make Decorator
                     </button>
                   )}
                   <button
                     onClick={() => handleDeleteUser(user._id)}
-                    className="btn btn-sm btn-error hover:btn-secondary transition-all duration-300"
+                    className="btn btn-sm btn-error hover:btn-secondary text-white transition-all duration-300"
                   >
                     Delete
                   </button>
