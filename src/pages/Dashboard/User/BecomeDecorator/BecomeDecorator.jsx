@@ -43,8 +43,6 @@ const BecomeDecorator = () => {
           text: res.data.message,
         });
       }
-
-      reset();
     } catch (error) {
       if (error.response?.status === 409) {
         Swal.fire({
@@ -60,6 +58,7 @@ const BecomeDecorator = () => {
         });
       }
     }
+    reset();
   };
 
   return (

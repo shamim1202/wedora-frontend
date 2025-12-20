@@ -24,6 +24,7 @@ import Statistics from "../pages/Dashboard/Statistics/Statistics";
 import MyAssignedProjects from "../pages/Dashboard/Decorator/MyAssignedProjects/MyAssignedProjects";
 import TodaysSchedule from "../pages/Dashboard/Decorator/TodaysSchedule/TodaysSchedule";
 import BecomeDecorator from "../pages/Dashboard/User/BecomeDecorator/BecomeDecorator";
+import DecoratorRequest from "../pages/Dashboard/Admin/DecoratorRequest/DecoratorRequest";
 
 export const router = createBrowserRouter([
   {
@@ -150,6 +151,14 @@ export const router = createBrowserRouter([
       {
         path: "become-decorator",
         Component: BecomeDecorator,
+      },
+      {
+        path: "decorator-request",
+        element: (
+          <PrivateRoute>
+            <DecoratorRequest></DecoratorRequest>
+          </PrivateRoute>
+        ),
       },
     ],
   },
