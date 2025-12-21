@@ -41,19 +41,31 @@ const DecoratorRequest = () => {
   };
 
   // Delete user
-  const handleCancle = async (userId) => {
+  const handleCancel = async (userId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "This user will be permanently deleted!",
+      text: "Users become a decorator request will be cancelled!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete!",
+      confirmButtonText: "Yes, Cancel!",
     });
 
     if (result.isConfirmed) {
-      await axiosSecure.delete(`/users/${userId}`);
-      Swal.fire("Deleted!", "User has been deleted.", "success");
-      refetch();
+      try {
+        const res = await axiosSecure.delete(
+          `/cancel-decorator-request/${userId}`
+        );
+        if (res.data.success) {
+          Swal.fire("Cancelled!", res.data.message, "success");
+          refetch();
+        }
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          error.response?.data?.message || "Failed to Cancelled request",
+          "error"
+        );
+      }
     }
   };
 
@@ -112,10 +124,10 @@ const DecoratorRequest = () => {
                   </button>
 
                   <button
-                    onClick={() => handleCancle(r._id)}
+                    onClick={() => handleCancel(r._id)}
                     className="btn btn-xs md:btn-sm btn-error hover:btn-secondary text-white transition-all duration-300"
                   >
-                    Reject
+                    Cancel
                   </button>
                 </td>
               </tr>

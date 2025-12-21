@@ -46,50 +46,52 @@ const decorators = [
 
 const TopDecorators = () => {
   return (
-    <section className="max-w-7xl mx-auto py-16 px-4">
-      <h2 className="text-3xl md:text-5xl font-playfair font-semibold text-secondary text-center mb-5 md:mb-12">
-        Top Decorators
-      </h2>
+    <div className="bg-pink-50 py-16 md:py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl md:text-5xl font-playfair font-semibold text-secondary text-center mb-5 md:mb-12">
+          Top Decorators
+        </h2>
 
-      <Swiper
-        modules={[Pagination, Navigation, Autoplay]}
-        spaceBetween={20}
-        slidesPerView={4}
-        loop={true}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3000 }}
-        breakpoints={{
-          480: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 4 },
-        }}
-      >
-        {decorators.map((decorator, index) => (
-          <SwiperSlide key={index}>
-            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
-              <img
-                src={decorator.image}
-                alt={decorator.name}
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-4"
-              />
-              <h3 className="text-lg md:text-xl font-semibold text-secondary mb-1">
-                {decorator.name}
-              </h3>
-              <p className="text-sm md:text-base text-gray-500 mb-2">
-                {decorator.specialty}
-              </p>
-              <div className="flex items-center gap-1">
-                <FaStar className="text-yellow-500" />
-                <span className="font-semibold text-gray-700">
-                  {decorator.rating}
-                </span>
+        <Swiper
+          modules={[Pagination, Navigation, Autoplay]}
+          spaceBetween={20}
+          slidesPerView={4}
+          loop={true}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3000 }}
+          breakpoints={{
+            480: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 4 },
+          }}
+        >
+          {decorators.map((decorator, index) => (
+            <SwiperSlide key={index}>
+              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
+                <img
+                  src={decorator.image}
+                  alt={decorator.name}
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-4"
+                />
+                <h3 className="text-lg md:text-xl font-semibold text-secondary mb-1">
+                  {decorator.name}
+                </h3>
+                <p className="text-sm md:text-base text-gray-500 mb-2">
+                  {decorator.specialty}
+                </p>
+                <div className="flex items-center gap-1">
+                  <FaStar className="text-yellow-500" />
+                  <span className="font-semibold text-gray-700">
+                    {decorator.rating}
+                  </span>
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </section>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
+    </div>
   );
 };
 

@@ -28,7 +28,7 @@ const Coverage = () => {
   ];
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <section className="bg-pink-50 py-16 md:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header with Animation */}
         <motion.div 
@@ -38,8 +38,8 @@ const Coverage = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white font-playfair mb-3 sm:mb-4">
-            Our <span className="text-primary">Coverage</span> Area
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary dark:text-white font-playfair mb-3 sm:mb-4">
+            Our Coverage Area
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
             We provide wedding planning services across all major cities in Bangladesh. 
@@ -73,7 +73,7 @@ const Coverage = () => {
             center={bangladeshCenter} 
             zoom={7} 
             scrollWheelZoom={false}
-            className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] w-full"
+            className="h-[300px] md:h-[400px] w-full"
             style={{ zIndex: 0 }}
           >
             <TileLayer
@@ -121,7 +121,7 @@ const Coverage = () => {
               <div>
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">Address</h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                  Headquarters: Dhaka<br />
+                  Headquarters: 123 Wedding st. Dhaka<br />
                   Serving all major cities across Bangladesh
                 </p>
               </div>
@@ -150,8 +150,8 @@ const Coverage = () => {
               <div>
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">Phone</h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                  +880 1234-567890<br />
-                  +880 9876-543210
+                  +880 123 456 7890<br />
+                  +889 876 543 2100
                 </p>
               </div>
             </div>

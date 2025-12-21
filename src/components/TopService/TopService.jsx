@@ -15,8 +15,8 @@ const TopService = () => {
   });
 
   return (
-    <section className="max-w-7xl mx-auto py-16 lg:py-20 bg-linear-to-br from-pink-50/50 via-background-light to-pink-50/30 dark:from-gray-900 dark:via-background-dark dark:to-gray-900">
-      <div className="px-4 sm:px-6 lg:px-8">
+    <section className="py-16 lg:py-20 bg-pink-50 dark:from-gray-900 dark:via-background-dark dark:to-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
