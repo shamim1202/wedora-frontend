@@ -40,7 +40,7 @@ const DecoratorRequest = () => {
     }
   };
 
-  // Delete user
+  // Cancel user request
   const handleCancel = async (userId) => {
     const result = await Swal.fire({
       title: "Are you sure?",

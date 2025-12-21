@@ -2,30 +2,30 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import Loading from "../../Shared/Loading/Loading";
+import ErrorPage from "../../Shared/ErrorPage/ErrorPage";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
-  const adminClass =
-    "bg-primary/20 text-primary px-3 py-1 rounded text-xs md:text-sm font-medium";
   const decoratorClass =
-    "bg-secondary/20 text-secondary px-3 py-1 rounded text-xs md:text-sm font-medium";
+    "bg-orange-100 text-orange-500 px-3 py-1 rounded text-xs md:text-sm font-medium";
   const userClass =
-    "bg-green-200 text-green-700 px-3 py-1 rounded text-xs md:text-sm font-medium";
+    "bg-green-100 text-green-700 px-3 py-1 rounded text-xs md:text-sm font-medium";
 
   const {
     data: users = [],
     isLoading,
     refetch,
+    error,
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get("/admin/manage-users");
       return res.data;
     },
   });
 
   // Change user role (e.g., make admin)
-  const handleRoleChange = async (userId, newRole) => {
+  const handleRoleChange = async (newRole, email) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: `Change role to ${newRole}?`,
@@ -35,9 +35,29 @@ const ManageUsers = () => {
     });
 
     if (result.isConfirmed) {
-      await axiosSecure.patch(`/users/role/${userId}`, { role: newRole });
-      Swal.fire("Updated!", `User role changed to ${newRole}`, "success");
-      refetch();
+      try {
+        const res = await axiosSecure.patch("/update-role", {
+          email: email,
+          role: newRole,
+        });
+
+        if (res.data.success) {
+          Swal.fire("Updated!", `User role changed to ${newRole}`, "success");
+          refetch();
+        } else {
+          Swal.fire(
+            "Error",
+            res.data.message || "Failed to update role",
+            "error"
+          );
+        }
+      } catch (err) {
+        Swal.fire(
+          "Error",
+          err.response?.data?.message || "Failed to update role",
+          "error"
+        );
+      }
     }
   };
 
@@ -50,18 +70,28 @@ const ManageUsers = () => {
       showCancelButton: true,
       confirmButtonText: "Yes, delete!",
     });
-
     if (result.isConfirmed) {
-      await axiosSecure.delete(`/users/${userId}`);
-      Swal.fire("Deleted!", "User has been deleted.", "success");
-      refetch();
+      try {
+        const res = await axiosSecure.delete(`/users/${userId}`);
+        if (res.data.success) {
+          Swal.fire("Deleted!", res.data.message, "success");
+          refetch();
+        }
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          error.response?.data?.message || "Failed to Cancelled request",
+          "error"
+        );
+      }
     }
   };
 
   if (isLoading) return <Loading></Loading>;
+  if (error) return <ErrorPage></ErrorPage>;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 lg:py-20">
       <div className="text-center mb-10">
         <h2 className="font-playfair text-3xl md:text-5xl font-semibold text-secondary">
           Manage <span className="text-primary font-bold">Users</span>
@@ -96,25 +126,53 @@ const ManageUsers = () => {
                 <td className="px-4 py-3 text-sm">
                   <span
                     className={
-                      user.role === "admin"
-                        ? adminClass
-                        : user.role === "decorator"
-                        ? decoratorClass
-                        : userClass
+                      user.role === "decorator" ? decoratorClass : userClass
                     }
                   >
                     {user.role}
                   </span>
                 </td>
                 <td className="px-4 py-3 flex flex-wrap gap-2">
-                  {user.role !== "admin" && (
-                    <button
-                      onClick={() => handleRoleChange(user._id, "decorator")}
-                      className="btn btn-sm btn-primary hover:btn-secondary text-white transition-all duration-300"
-                    >
-                      Make Decorator
-                    </button>
+                  {user.role == "user" ? (
+                    <>
+                      <button
+                        onClick={() =>
+                          handleRoleChange("decorator", user.email)
+                        }
+                        className="btn btn-xs md:btn-sm btn-success text-white transition-all duration-300"
+                      >
+                        Make Decorator
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleRoleChange("admin", user.email)
+                        }
+                        className="btn btn-xs md:btn-sm btn-info text-white transition-all duration-300"
+                      >
+                        Make Admin
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() =>
+                          handleRoleChange("user", user.email)
+                        }
+                        className="btn btn-xs md:btn-sm btn-warning text-white transition-all duration-300"
+                      >
+                        Make User
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleRoleChange("admin", user.email)
+                        }
+                        className="btn btn-xs md:btn-sm btn-info text-white transition-all duration-300"
+                      >
+                        Make Admin
+                      </button>
+                    </>
                   )}
+
                   <button
                     onClick={() => handleDeleteUser(user._id)}
                     className="btn btn-sm btn-error hover:btn-secondary text-white transition-all duration-300"
