@@ -23,10 +23,10 @@ const AdminMenu = () => {
         <Link
           to="/dashboard/decorator-request"
           className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="Manage Users"
+          data-tip="Decorator Request"
         >
           <TbUserScan size={24} color="#1f1f36" />
-          <span className="is-drawer-close:hidden">Manage Users</span>
+          <span className="is-drawer-close:hidden">Decorator Request</span>
         </Link>
       </li>
 

@@ -5,6 +5,7 @@ import Loading from "../../../Shared/Loading/Loading";
 
 const DecoratorRequest = () => {
   const axiosSecure = useAxiosSecure();
+
   const {
     data: request = [],
     isLoading,
@@ -18,24 +19,29 @@ const DecoratorRequest = () => {
   });
 
   // Change user role (e.g., make admin)
-  const handleRoleChange = async (userId, newRole) => {
+  const handleAccept = async (email) => {
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: `Change role to ${newRole}?`,
+      title: "Approve Request?",
+      text: "User will become a decorator",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, change it!",
+      confirmButtonText: "Yes, Approve",
     });
 
     if (result.isConfirmed) {
-      await axiosSecure.patch(`/users/role/${userId}`, { role: newRole });
-      Swal.fire("Updated!", `User role changed to ${newRole}`, "success");
-      refetch();
+      const res = await axiosSecure.patch("/update-role", {
+        email,
+        role: "decorator",
+      });
+      if (res.data.success) {
+        Swal.fire("Approved!", res.data.message, "success");
+        refetch();
+      }
     }
   };
 
   // Delete user
-  const handleDeleteUser = async (userId) => {
+  const handleCancle = async (userId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "This user will be permanently deleted!",
@@ -99,14 +105,14 @@ const DecoratorRequest = () => {
 
                 <td className="px-4 py-3 flex flex-wrap gap-2">
                   <button
-                    onClick={() => handleRoleChange(r._id, "decorator")}
+                    onClick={() => handleAccept(r.email)}
                     className="btn btn-xs md:btn-sm btn-primary hover:btn-secondary text-white transition-all duration-300"
                   >
                     Accept
                   </button>
 
                   <button
-                    onClick={() => handleDeleteUser(r._id)}
+                    onClick={() => handleCancle(r._id)}
                     className="btn btn-xs md:btn-sm btn-error hover:btn-secondary text-white transition-all duration-300"
                   >
                     Reject
