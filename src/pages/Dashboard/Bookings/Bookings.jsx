@@ -47,6 +47,7 @@ const Bookings = () => {
       console.error("Error deleting booking:", error);
     }
   };
+  refetch()
 
   return (
     <div className="p-5 md:p-10">

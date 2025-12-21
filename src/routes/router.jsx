@@ -25,6 +25,7 @@ import MyAssignedProjects from "../pages/Dashboard/Decorator/MyAssignedProjects/
 import TodaysSchedule from "../pages/Dashboard/Decorator/TodaysSchedule/TodaysSchedule";
 import BecomeDecorator from "../pages/Dashboard/User/BecomeDecorator/BecomeDecorator";
 import DecoratorRequest from "../pages/Dashboard/Admin/DecoratorRequest/DecoratorRequest";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -86,11 +87,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "bookings",
-        element: (
-          <PrivateRoute>
-            <Bookings></Bookings>
-          </PrivateRoute>
-        ),
+        Component: Bookings,
       },
       {
         path: "payment/:bookingId",
@@ -103,9 +100,9 @@ export const router = createBrowserRouter([
       {
         path: "add-service",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AddDecorationService></AddDecorationService>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
@@ -119,34 +116,22 @@ export const router = createBrowserRouter([
       {
         path: "manage-users",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <ManageUsers></ManageUsers>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "statistics",
-        element: (
-          <PrivateRoute>
-            <Statistics></Statistics>
-          </PrivateRoute>
-        ),
+        Component: Statistics,
       },
       {
         path: "assigned-project",
-        element: (
-          <PrivateRoute>
-            <MyAssignedProjects></MyAssignedProjects>
-          </PrivateRoute>
-        ),
+        Component: MyAssignedProjects,
       },
       {
         path: "todays-schedule",
-        element: (
-          <PrivateRoute>
-            <TodaysSchedule></TodaysSchedule>
-          </PrivateRoute>
-        ),
+        Component: TodaysSchedule,
       },
       {
         path: "become-decorator",
@@ -155,9 +140,9 @@ export const router = createBrowserRouter([
       {
         path: "decorator-request",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <DecoratorRequest></DecoratorRequest>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
     ],
