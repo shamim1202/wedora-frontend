@@ -10,7 +10,7 @@ const Services = () => {
   const { data: services = [], isLoading, isError } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
-      const res = await axiosSecure.get("services");
+      const res = await axiosSecure.get("/services");
       return res.data;
     },
   });

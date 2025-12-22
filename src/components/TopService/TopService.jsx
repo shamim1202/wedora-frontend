@@ -9,7 +9,7 @@ const TopService = () => {
   const { data: topServices = [] } = useQuery({
     queryKey: ["topServices"],
     queryFn: async () => {
-      const res = await axiosSecure.get("top-services");
+      const res = await axiosSecure.get("/top-services");
       return res.data;
     },
   });

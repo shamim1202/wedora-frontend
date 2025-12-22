@@ -17,7 +17,7 @@ const ServiceDetails = () => {
   const { data: service = {} } = useQuery({
     queryKey: ["serviceDetails", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`services/${id}`);
+      const res = await axiosSecure.get(`/services/${id}`);
       return res.data;
     },
   });

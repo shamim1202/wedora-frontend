@@ -31,56 +31,65 @@ const decorators = [
     image: "https://i.ibb.co/kxGpF4c/decorator4.jpg",
   },
   {
-    name: "Dream Weddings",
-    specialty: "Wedding & Ceremony Decoration",
-    rating: 4.9,
-    image: "https://i.ibb.co/ZxVYQKd/decorator3.jpg",
-  },
-  {
     name: "Luxury Designs",
     specialty: "Event & Party Planning",
     rating: 4.5,
     image: "https://i.ibb.co/LQq8JmK/decorator2.jpg",
   },
+  {
+    name: "Elegant Events",
+    specialty: "Wedding & Home Decoration",
+    rating: 4.8,
+    image: "https://i.ibb.co/3W9JzJr/decorator1.jpg",
+  },
 ];
 
 const TopDecorators = () => {
   return (
-    <div className="bg-pink-50 py-16 md:py-20">
+    <div className="bg-pink-50 py-12 md:py-20">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-5xl font-playfair font-semibold text-secondary text-center mb-5 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-playfair font-semibold text-secondary text-center mb-8 md:mb-12">
           Top Decorators
         </h2>
 
         <Swiper
           modules={[Pagination, Navigation, Autoplay]}
-          spaceBetween={20}
-          slidesPerView={4}
-          loop={true}
-          navigation
-          pagination={{ clickable: true }}
+          loop
+          spaceBetween={16}
           autoplay={{ delay: 3000 }}
+          pagination={{ clickable: true }}
+          navigation={false}
           breakpoints={{
-            480: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
+            0: {
+              slidesPerView: 1,
+            },
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 4,
+              navigation: true,
+            },
           }}
         >
           {decorators.map((decorator, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-6 flex flex-col items-center text-center">
+              <div className="bg-white rounded-xl shadow-md p-5 flex flex-col items-center text-center h-full">
                 <img
                   src={decorator.image}
                   alt={decorator.name}
-                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-4"
+                  className="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full object-cover mb-4"
                 />
-                <h3 className="text-lg md:text-xl font-semibold text-secondary mb-1">
+
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-secondary">
                   {decorator.name}
                 </h3>
-                <p className="text-sm md:text-base text-gray-500 mb-2">
+
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 mt-1 mb-2">
                   {decorator.specialty}
                 </p>
-                <div className="flex items-center gap-1">
+
+                <div className="flex items-center gap-1 text-sm">
                   <FaStar className="text-yellow-500" />
                   <span className="font-semibold text-gray-700">
                     {decorator.rating}

@@ -1,16 +1,151 @@
-# React + Vite
+# 🌸 Wedora – Wedding & Decoration Service Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Wedora is a modern, full-stack **wedding and event decoration booking & management platform** designed to streamline decoration services for homes, weddings, and ceremonies through a smart, role-based system.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
+- Client: https://wedora-frontend.vercel.app/  
+- Server: https://wedora-server.vercel.app/  
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Project Purpose
 
-## Expanding the ESLint configuration
+Local decoration businesses often struggle with:
+- Walk-in crowd & long waiting times
+- No online booking system
+- Poor decorator scheduling
+- No service tracking workflow
+- No analytics or revenue insights
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Wedora solves these problems** with a fully digital, automated system.
+
+---
+
+## ✨ Key Features
+
+### 👤 User
+- Browse decoration services & packages
+- View service details, ratings & providers
+- Book services with date & location
+- Blocked-date booking system
+- Secure online payment
+- Booking & payment history
+- Profile management
+
+### 🎨 Decorator
+- View assigned projects
+- Update project status
+- Earnings summary
+- Daily schedule view
+
+### 🛠 Admin
+- Manage users (role change, delete)
+- Manage services & packages (CRUD)
+- Assign decorators
+- Revenue monitoring
+- Analytics charts (service demand, bookings)
+- Payment verification
+
+---
+
+## 🔄 How It Works
+
+1. User selects a decoration service
+2. Chooses date & event location
+3. System checks blocked dates
+4. User confirms booking & payment
+5. Admin assigns decorator
+6. Decorator updates status
+7. Event completed successfully 🎉
+
+---
+
+## 📊 Service Status Flow
+
+- Assigned  
+- Planning Phase  
+- Materials Prepared  
+- On the Way  
+- Setup in Progress  
+- Completed  
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+- React
+- React Router
+- TanStack React Query
+- Tailwind CSS
+- DaisyUI
+- Framer Motion
+- React Hook Form
+- React DatePicker
+- SweetAlert2
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+
+---
+
+## 🎨 Color Palette
+
+| Usage | Color |
+|------|------|
+| Primary | `#f472b6` |
+| Secondary | `#d4af37` |
+| Accent | `#1f1f36` |
+
+---
+
+## 🔐 Authentication & Security
+- Firebase Authentication
+- JWT-protected routes
+- Role-based authorization (User, Decorator, Admin)
+- Environment variables secured
+
+---
+
+## 📦 NPM Packages Used
+- react
+- react-router-dom
+- @tanstack/react-query
+- axios
+- firebase
+- framer-motion
+- react-hook-form
+- react-datepicker
+- sweetalert2
+- react-icons
+- tailwindcss
+- daisyui
+
+---
+
+## 🌱 Future Enhancements
+- Real-time notifications
+- Multi-day bookings
+- Advanced analytics dashboard
+- Review & rating system
+- AI-based decorator recommendation
+
+---
+
+## 👨‍💻 Author
+**Your Name**  
+Junior MERN Stack Developer  
+📧 Email: mehedihasankhan25@yahoo.com  
+🌐 Portfolio: https://mehedihasankhan.vercel.app/  
+
+---
+
+## 📜 License
+This project is developed for **educational and portfolio purposes**.  
+© 2025 Wedora. Wedding & Decoration Service Management System All rights reserved.
+
