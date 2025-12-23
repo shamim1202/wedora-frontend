@@ -5,22 +5,22 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const BecomeDecorator = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    loading,
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { name, email, phone, experience, skills, portfolio } = data;
-    const image = user?.photoURL;
+    const { phone, experience, skills, portfolio } = data;
     const applyData = {
-      image,
-      name,
-      email,
+      email: user.email,
+      image: user.photoURL,
+      name: user.displayName,
       phone,
       experience,
       skills,
@@ -35,6 +35,7 @@ const BecomeDecorator = () => {
           title: "Request Submitted",
           text: res.data.message,
         });
+        reset();
       } else {
         console.log(res.data.message);
         Swal.fire({
@@ -58,7 +59,6 @@ const BecomeDecorator = () => {
         });
       }
     }
-    reset();
   };
 
   return (
@@ -82,7 +82,6 @@ const BecomeDecorator = () => {
           <div>
             <label className="text-xs md:text-sm font-medium">Full Name</label>
             <input
-              {...register("name", { required: true })}
               className="w-full mt-1 px-4 py-2 border border-secondary rounded-lg dark:bg-gray-900"
               value={user.displayName}
               disabled
@@ -93,7 +92,6 @@ const BecomeDecorator = () => {
           <div>
             <label className="text-xs md:text-sm font-medium">Email</label>
             <input
-              {...register("email", { required: true })}
               className="w-full mt-1 px-4 py-2 border border-secondary rounded-lg dark:bg-gray-900"
               value={user.email}
               disabled

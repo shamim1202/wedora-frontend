@@ -10,7 +10,7 @@ const Profile = () => {
   const { user, updateUserProfile, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [role, isRoleLoading] = useRole();
-  console.log(role)
+  console.log(role);
 
   // Fetch profile from DB
   // const { data: profile = {}, refetch } = useQuery({
@@ -55,7 +55,7 @@ const Profile = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Banner */}
-      <div className="relative h-48 md:h-72 rounded-xl bg-gradient-to-r from-primary via-pink-400 to-secondary shadow-lg">
+      <div className="relative h-48 md:h-72 rounded-xl bg-[url('https://i.ibb.co.com/N6BHYjqM/profile-cover.png')] bg-cover bg-center opacity-80 shadow-lg">
         <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
           <img
             // src={profile.photoURL || user?.photoURL}

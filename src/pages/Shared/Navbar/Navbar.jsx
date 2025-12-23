@@ -8,8 +8,6 @@ import useAuth from "../../../hooks/useAuth";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
-  console.log(user)
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const overlayVariants = {
@@ -19,18 +17,20 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logOut()
-    .then()
-    .catch(err => {
-      console.log(err)
-    })
-  }
+      .then()
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4">
       <div className="flex items-center justify-between h-16 md:h-20">
         {/*===============> Left: Logo & Brand <===================*/}
         <div className="flex items-center space-x-2">
-          <Logo></Logo>
+          <Link to="/">
+            <Logo></Logo>
+          </Link>
         </div>
 
         {/*=============> Middle: Nav Links - Desktop <=============*/}
@@ -80,7 +80,11 @@ const Navbar = () => {
           {user ? (
             <div className="relative group">
               <button className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:border-primary hover:bg-primary/5 transition-all">
-                <img src={user.photoURL} alt="" className="w-10 h-10 rounded-full"/>
+                <img
+                  src={user.photoURL}
+                  alt=""
+                  className="w-10 h-10 rounded-full"
+                />
                 <span className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
                   {user.displayName}
                 </span>
@@ -122,7 +126,10 @@ const Navbar = () => {
                   Settings
                 </a>
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                <button className="block w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer" onClick={handleLogout}>
+                <button
+                  className="block w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
+                  onClick={handleLogout}
+                >
                   Logout
                 </button>
               </div>

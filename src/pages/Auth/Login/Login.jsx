@@ -179,14 +179,14 @@ const Login = () => {
                       type="checkbox"
                       className="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 rounded"
                     />
-                    <label className="ml-2 block text-sm text-gray-600 dark:text-gray-400">
+                    <label className="ml-2 block text-xs md:text-sm text-gray-600 dark:text-gray-400">
                       Remember Me
                     </label>
                   </div>
                   <div className="text-sm">
                     <a
                       href="#"
-                      className="font-medium text-primary hover:text-primary/80 transition-colors"
+                      className="font-medium text-xs md:text-sm text-primary hover:text-primary/80 transition-colors"
                     >
                       Forgot Password?
                     </a>

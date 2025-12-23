@@ -15,8 +15,10 @@ const DecoratorRequest = () => {
     queryFn: async () => {
       const res = await axiosSecure.get("/decorator-request");
       return res.data;
+      
     },
   });
+  console.log(request)
 
   // Change user role (e.g., make admin)
   const handleAccept = async (email) => {
@@ -87,7 +89,7 @@ const DecoratorRequest = () => {
               <th className="px-4 py-3 text-sm font-semibold">Image</th>
               <th className="px-4 py-3 text-sm font-semibold">Name</th>
               <th className="px-4 py-3 text-sm font-semibold">Email</th>
-              {/* <th className="px-4 py-3 text-sm font-semibold">Role</th> */}
+              <th className="px-4 py-3 text-sm font-semibold">Apply At</th>
               <th className="px-4 py-3 text-sm font-semibold">Actions</th>
             </tr>
           </thead>
@@ -102,10 +104,9 @@ const DecoratorRequest = () => {
                 </td>
                 <td className="px-4 py-3 text-sm font-medium text-accent dark:text-white">
                   <img
-                    className="rounded-full w-6 md:w-10"
+                    className="rounded-full w-6 md:w-10 md:h-10"
                     src={r.image}
                     alt=""
-                    srcset=""
                   />
                 </td>
                 <td className="px-4 py-3 text-sm font-medium text-accent dark:text-white">
@@ -113,6 +114,9 @@ const DecoratorRequest = () => {
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                   {r.email}
+                </td>
+                <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                  {new Date(r.applyAt).toDateString()}
                 </td>
 
                 <td className="px-4 py-3 flex flex-wrap gap-2">

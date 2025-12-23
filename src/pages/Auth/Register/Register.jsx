@@ -44,7 +44,6 @@ const Register = () => {
         text: "Registration Successful!",
       });
       navigate(from, { replace: true });
-      console.log(result);
     } catch (error) {
       let message = "Something went wrong.";
 
@@ -285,10 +284,10 @@ const Register = () => {
                 className="w-full mt-4 md:mt-6 py-2 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-lg hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-900 transition-all duration-300"
               >
                 {loading ? (
-                    <span className="loading loading-bars loading-xs md:loading-sm"></span>
-                  ) : (
-                    "Register Now"
-                  )}
+                  <span className="loading loading-bars loading-xs md:loading-sm"></span>
+                ) : (
+                  "Register Now"
+                )}
               </motion.button>
             </motion.form>
 
